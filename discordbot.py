@@ -25,6 +25,7 @@ async def on_reaction_add(reaction, user):
     # 指定した絵文字に反応する場合の処理
     if str(reaction.emoji) == target_emoji:
         message = reaction.message
+        print(f'detected! :{message}')
         openai_client = OpenAI(os.environ['GPT_API_KEY'])  # OpenAIクライアントの初期化
         completion = openai_client.chat.completions.create(
             model="gpt-4-0314",
