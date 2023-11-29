@@ -14,7 +14,7 @@ openai_api_key = os.environ['GPT_API_KEY']
 discord_bot_token = os.environ['DISCORD_BOT_TOKEN']
 
 # 反応する絵文字を設定
-target_emoji = "👍"
+target_emoji = ":star2:"
 
 @client.event
 async def on_ready():
