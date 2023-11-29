@@ -36,7 +36,7 @@ async def on_reaction_add(reaction, user):
             model="gpt-4-0314",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": "Hello!"}
+                {"role": "user", "content": message.content}}
             ]
             )
 
