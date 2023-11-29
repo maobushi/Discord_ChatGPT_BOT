@@ -2,6 +2,11 @@ import discord
 import openai
 import os
 
+
+intents = discord.Intents.default()  # This will enable most, but not all, intents
+# If you need all intents, including privileged ones like 'members' and 'presences', use:
+# intents = discord.Intents.all()
+
 client = discord.Client()
 openai_api_key = os.environ['GPT_API_KEY']  # OpenAI APIキーを設定
 discord_bot_token = os.environ['DISCORD_BOT_TOKEN'] # Discord BOTトークンを設定
