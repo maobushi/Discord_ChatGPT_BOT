@@ -26,12 +26,21 @@ async def on_reaction_add(reaction, user):
     if reaction.emoji == target_emoji:
         message = reaction.message
         openai.api_key = openai_api_key  # OpenAI APIキーを設定
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "system", "content": "You are a helpful assistant."},
-                      {"role": "user", "content": message.content}]
-        )
-        await message.channel.send(response.choices[0].message['content'])
+        # response = openai.ChatCompletion.create(
+        #     model="gpt-3.5-turbo",
+        #     messages=[{"role": "system", "content": "You are a helpful assistant."},
+        #               {"role": "user", "content": message.content}]
+        # )
+        client = OpenAI()
+        completion = client.chat.completions.create(
+            model="gpt-4-0314",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": "Hello!"}
+            ]
+            )
+
+        await message.channel.send(completion.choices[0].message)
 
 # ボットを実行
 client.run(discord_bot_token)
