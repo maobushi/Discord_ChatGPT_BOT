@@ -2,15 +2,19 @@ import discord
 import openai
 import os
 
+# 必要なIntentsを設定
+intents = discord.Intents.default()  # 一般的なIntentsを有効化
+# intents = discord.Intents.all()  # すべてのIntentsを有効化する場合
 
-intents = discord.Intents.default()  # This will enable most, but not all, intents
-# If you need all intents, including privileged ones like 'members' and 'presences', use:
-# intents = discord.Intents.all()
+# Discord ClientをIntentsと共に初期化
+client = discord.Client(intents=intents)
 
-client = discord.Client()
-openai_api_key = os.environ['GPT_API_KEY']  # OpenAI APIキーを設定
-discord_bot_token = os.environ['DISCORD_BOT_TOKEN'] # Discord BOTトークンを設定
-target_emoji = "👍"  # 反応する絵文字を設定
+# 環境変数からAPIキーを取得
+openai_api_key = os.environ['GPT_API_KEY']
+discord_bot_token = os.environ['DISCORD_BOT_TOKEN']
+
+# 反応する絵文字を設定
+target_emoji = "👍"
 
 @client.event
 async def on_ready():
@@ -18,8 +22,10 @@ async def on_ready():
 
 @client.event
 async def on_reaction_add(reaction, user):
+    # 指定した絵文字に反応する場合の処理
     if reaction.emoji == target_emoji:
         message = reaction.message
+        openai.api_key = openai_api_key  # OpenAI APIキーを設定
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "system", "content": "You are a helpful assistant."},
@@ -27,4 +33,5 @@ async def on_reaction_add(reaction, user):
         )
         await message.channel.send(response.choices[0].message['content'])
 
+# ボットを実行
 client.run(discord_bot_token)
